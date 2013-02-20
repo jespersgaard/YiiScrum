@@ -106,4 +106,24 @@ class Project extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+
+    public function getProjectUsersLabels() {
+        $ret=array();
+        $members=$this->projectMembers;
+        foreach($members as $member) {
+            $ret[$member->user_id]=$member->user->username;
+        }
+        return $ret;
+    }
+    protected function afterSave() {
+        if ($this->isNewRecord) {
+            $projectMember=new ProjectMember();
+            $projectMember->project_id=$this->id;
+            $projectMember->user_id=1;
+            $projectMember->role="OWNER";
+            $projectMember->save();
+        }
+        parent::afterSave();
+    }
+
 }
