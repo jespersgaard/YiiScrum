@@ -86,7 +86,7 @@ return array(
 	// application-level parameters that can be accessed
 	// using Yii::app()->params['paramName']
 	'params'=>array(
-		// this is used in contact page
 		'adminEmail'=>'admin@localhost',
+        'encryptionKey' => ',.g\vtPoR@mV#^N,KT^D4i4xU"?7OZ',
 	),
 );
