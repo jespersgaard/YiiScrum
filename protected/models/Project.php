@@ -43,10 +43,12 @@ class Project extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('title, start, create_time', 'required'),
+			array('title, start', 'required'),
 			array('iteration_length, initial_velocity', 'numerical', 'integerOnly'=>true),
 			array('title', 'length', 'max'=>200),
 			array('description', 'safe'),
+            array('create_time', 'default', 'value' => new CDbExpression('NOW()'),
+                'on' => 'insert'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, title, description, start, iteration_length, initial_velocity, create_time', 'safe', 'on'=>'search'),
