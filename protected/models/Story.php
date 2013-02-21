@@ -152,4 +152,20 @@ class Story extends CActiveRecord
 
         return $pointLabels;
     }
+
+    protected function afterSave()
+    {
+        $labels = explode(",", $this->labels);
+        foreach ($labels as $label) {
+            $label=trim($label);
+            $found=Label::model()->find("label=:label", array(":label" => $label));
+            if ($found===null) {
+                $newLabel=new Label;
+                $newLabel->label=$label;
+                $newLabel->save();
+            }
+        }
+        return parent::afterSave();
+    }
+
 }

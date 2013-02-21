@@ -11,6 +11,7 @@ $this->menu=array(
 	array('label'=>'Delete Project','url'=>'#','linkOptions'=>array('submit'=>array('delete','id'=>$model->id),'confirm'=>'Are you sure you want to delete this item?')),
 	array('label'=>'Manage Project','url'=>array('admin')),
     array('label'=>'Add Story','url'=>array('story/create', 'project_id'=>$model->id)),
+    array('label'=>'Add Member','url'=>array('projectMember/create', 'project_id'=>$model->id)),
 );
 ?>
 
@@ -28,3 +29,21 @@ $this->menu=array(
 		'create_time',
 	),
 )); ?>
+
+<h2>Project members</h2>
+<?php
+$this->widget('bootstrap.widgets.TbGridView', array(
+    'dataProvider' => $membersGridDataProvider,
+    'template' => "{items}",
+    'columns' => $membersGridColumns,
+));
+?>
+
+<h2>Project stories</h2>
+<?php
+$this->widget('bootstrap.widgets.TbGridView', array(
+    'dataProvider' => $backlogGridDataProvider,
+    'template' => "{items}",
+    'columns' => $backlogGridColumns,
+));
+?>

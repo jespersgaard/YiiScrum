@@ -1,23 +1,18 @@
 <?php
 
 /**
- * This is the model class for table "project_member".
+ * This is the model class for table "label".
  *
- * The followings are the available columns in table 'project_member':
- * @property integer $project_id
- * @property integer $user_id
- * @property string $role
- *
- * The followings are the available model relations:
- * @property User $user
- * @property Project $project
+ * The followings are the available columns in table 'label':
+ * @property integer $id
+ * @property string $label
  */
-class ProjectMember extends CActiveRecord
+class Label extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return ProjectMember the static model class
+	 * @return Label the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -29,7 +24,7 @@ class ProjectMember extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'project_member';
+		return 'label';
 	}
 
 	/**
@@ -40,12 +35,11 @@ class ProjectMember extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('project_id, user_id, role', 'required'),
-			array('project_id, user_id', 'numerical', 'integerOnly'=>true),
-			array('role', 'length', 'max'=>100),
+			array('label', 'required'),
+			array('label', 'length', 'max'=>40),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('project_id, user_id, role', 'safe', 'on'=>'search'),
+			array('id, label', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -57,8 +51,6 @@ class ProjectMember extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'user' => array(self::BELONGS_TO, 'User', 'user_id'),
-			'project' => array(self::BELONGS_TO, 'Project', 'project_id'),
 		);
 	}
 
@@ -68,9 +60,8 @@ class ProjectMember extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'project_id' => 'Project',
-			'user_id' => 'User',
-			'role' => 'Role',
+			'id' => 'ID',
+			'label' => 'Label',
 		);
 	}
 
@@ -85,13 +76,21 @@ class ProjectMember extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('project_id',$this->project_id);
-		$criteria->compare('user_id',$this->user_id);
-		$criteria->compare('role',$this->role,true);
+		$criteria->compare('id',$this->id);
+		$criteria->compare('label',$this->label,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
 	}
 
+    public static function getAllLabels() {
+        $labels=Label::model()->findAll();
+        $result = array();
+        foreach ($labels as $key => $value) {
+            $result[] = $value->label;
+        }
+        return $result;
+
+    }
 }

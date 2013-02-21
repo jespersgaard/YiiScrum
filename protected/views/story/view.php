@@ -1,6 +1,7 @@
 <?php
+/*  @var $model Story   */
 $this->breadcrumbs=array(
-	'Stories'=>array('index'),
+	$model->project->title=>array('project/view', 'id'=>$model->project_id),
 	$model->name,
 );
 

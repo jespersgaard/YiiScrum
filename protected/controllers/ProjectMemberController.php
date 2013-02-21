@@ -1,6 +1,6 @@
 <?php
 
-class ProjectController extends Controller
+class ProjectMemberController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -50,41 +50,9 @@ class ProjectController extends Controller
 	 */
 	public function actionView($id)
 	{
-        $model = $this->loadModel($id);
-
-        $membersGridDataProvider = new CArrayDataProvider($model->projectMembers);
-        $membersGridColumns = array(
-            array('name' => 'user.username', 'header' => 'User'),
-            array('name' => 'role', 'header' => 'Role'),
-            array(
-                'htmlOptions' => array('nowrap' => 'nowrap'),
-                'class' => 'bootstrap.widgets.TbButtonColumn',
-                'template' => '{view}',
-                'viewButtonUrl' => 'Yii::app()->urlManager->createUrl("user/view", array("id"=>$data->user_id))'
-            ),
-        );
-
-        $backlogGridDataProvider = new CArrayDataProvider($model->stories);
-        $backlogGridColumns = array(
-            array('name' => 'name', 'header' => 'Name'),
-            array('name' => 'type', 'header' => 'Type'),
-            array('name' => 'points', 'header' => 'Points'),
-            array(
-                'htmlOptions' => array('nowrap' => 'nowrap'),
-                'class' => 'bootstrap.widgets.TbButtonColumn',
-                'template' => '{view}',
-                'viewButtonUrl' => 'Yii::app()->urlManager->createUrl("story/view", array("id"=>$data->id))'
-            ),
-        );
-
-        $this->render('view',array(
-			'model'=> $model,
-            'membersGridDataProvider' => $membersGridDataProvider,
-            'membersGridColumns' => $membersGridColumns,
-            'backlogGridDataProvider' => $backlogGridDataProvider,
-            'backlogGridColumns' => $backlogGridColumns,
-
-        ));
+		$this->render('view',array(
+			'model'=>$this->loadModel($id),
+		));
 	}
 
 	/**
@@ -93,14 +61,14 @@ class ProjectController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new Project;
+		$model=new ProjectMember;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Project']))
+		if(isset($_POST['ProjectMember']))
 		{
-			$model->attributes=$_POST['Project'];
+			$model->attributes=$_POST['ProjectMember'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
 		}
@@ -122,9 +90,9 @@ class ProjectController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Project']))
+		if(isset($_POST['ProjectMember']))
 		{
-			$model->attributes=$_POST['Project'];
+			$model->attributes=$_POST['ProjectMember'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
 		}
@@ -159,7 +127,7 @@ class ProjectController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('Project');
+		$dataProvider=new CActiveDataProvider('ProjectMember');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
@@ -170,10 +138,10 @@ class ProjectController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		$model=new Project('search');
+		$model=new ProjectMember('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Project']))
-			$model->attributes=$_GET['Project'];
+		if(isset($_GET['ProjectMember']))
+			$model->attributes=$_GET['ProjectMember'];
 
 		$this->render('admin',array(
 			'model'=>$model,
@@ -187,7 +155,7 @@ class ProjectController extends Controller
 	 */
 	public function loadModel($id)
 	{
-		$model=Project::model()->findByPk($id);
+		$model=ProjectMember::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -199,7 +167,7 @@ class ProjectController extends Controller
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='project-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='project-member-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();

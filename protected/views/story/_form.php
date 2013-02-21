@@ -23,13 +23,16 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 
 <?php echo $form->dropDownListRow($model, 'owner', $model->project->getProjectUsersLabels()); ?>
 
-<?php echo $form->textFieldRow($model, 'labels', array('class' => 'span5', 'maxlength' => 200)); ?>
+<?php echo $form->select2Row($model, 'labels', array('asDropDownList' => false, 'options' => array(
+    'model'=>$model,
+    'attribute'=>'labels',
+    'tags' => Label::getAllLabels(),
+    'placeholder' => 'Add label here!',
+    'width' => '40%',
+    'tokenSeparators' => array(',', ' ')
+)));?>
 
-<?php echo $form->textFieldRow($model, 'iteration', array('class' => 'span5')); ?>
 
-<?php echo $form->textFieldRow($model, 'position', array('class' => 'span5')); ?>
-
-<?php echo $form->textFieldRow($model, 'status', array('class' => 'span5', 'maxlength' => 11)); ?>
 
 <div class="form-actions">
     <?php $this->widget('bootstrap.widgets.TbButton', array(
