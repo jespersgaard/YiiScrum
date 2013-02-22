@@ -132,6 +132,10 @@ class User extends CActiveRecord
         return hash_hmac('sha256', $pass, Yii::app()->params['encryptionKey']);
     }
 
+    public function validatePassword($pass) {
+        return $this->password===$this->encodePassword($pass);
+    }
+
     public function getAdminText() {
         return $this->admin ? "Igen" : "Nem";
     }

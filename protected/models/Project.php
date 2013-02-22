@@ -142,7 +142,7 @@ class Project extends CActiveRecord
         if ($this->isNewRecord) {
             $projectMember = new ProjectMember();
             $projectMember->project_id = $this->id;
-            $projectMember->user_id = 1;
+            $projectMember->user_id = Yii::app()->user->id;
             $projectMember->role = "OWNER";
             $projectMember->save();
         }

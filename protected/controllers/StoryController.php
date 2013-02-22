@@ -63,6 +63,8 @@ class StoryController extends Controller
 	{
 		$model=new Story;
         $model->project_id=$project_id;
+        $model->requester=Yii::app()->user->id;
+        $model->owner=Yii::app()->user->id;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
