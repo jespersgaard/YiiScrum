@@ -1,7 +1,7 @@
 <?php
 $this->breadcrumbs=array(
-	'Project Members'=>array('index'),
-	$model->id,
+    $model->project->title=>array('project/view', 'id'=>$model->project_id),
+    $model->id,
 );
 
 $this->menu=array(
