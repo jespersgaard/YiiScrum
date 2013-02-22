@@ -12,6 +12,7 @@ $this->menu=array(
 	array('label'=>'Manage Project','url'=>array('admin')),
     array('label'=>'Add Story','url'=>array('story/create', 'project_id'=>$model->id)),
     array('label'=>'Add Member','url'=>array('projectMember/create', 'project_id'=>$model->id)),
+    array('label'=>'Scrum view','url'=>array('scrum/index', 'project_id'=>$model->id)),
 );
 ?>
 
