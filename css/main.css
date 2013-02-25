@@ -2,7 +2,8 @@ body
 {
 	margin: 0;
 	padding: 0px;
-    padding-top: 40px;
+    padding-top: 60px;
+
 	color: #555;
 	font: normal 10pt Arial,Helvetica,sans-serif;
 	background: #EFEFEF;
@@ -11,8 +12,8 @@ body
 #page
 {
 	margin-top: 0px;
-	margin-bottom: 0px;
 	background: white;
+    min-height: 80%;
 	/*border: 1px solid #C9E0ED;*/
 }
 
@@ -134,7 +135,8 @@ div.view
 div.breadcrumbs
 {
 	font-size: 0.9em;
-	padding: 5px 20px;
+	padding-bottom: 15px;
+    padding-left:  20px;
 }
 
 div.breadcrumbs span
@@ -232,3 +234,16 @@ div.search-form
 }
 #icebox {
 }
+
+html, body {
+    height:100%;
+}
+
+.container {
+}
+
+.hero-unit {
+    background-image: url(../images/footer_background4.jpg);
+    background-repeat: repeat-x;
+}
+

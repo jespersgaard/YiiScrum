@@ -9,14 +9,18 @@ class ScrumController extends Controller
 
         $sprintGridDataProvider = new CArrayDataProvider($model->stories);
         $storyGridColumns = array(
-            array('name' => 'name', 'header' => 'Name'),
-            array('name' => 'type', 'header' => 'Type'),
-            array('name' => 'points', 'header' => 'Points'),
-            array(
-                'htmlOptions' => array('nowrap' => 'nowrap'),
-                'class' => 'bootstrap.widgets.TbButtonColumn',
-                'template' => '',
-                'viewButtonUrl' => 'Yii::app()->urlManager->createUrl("story/view", array("id"=>$data->id))'
+            array('name' => 'name',
+                'type'=>'raw',
+                'value'=>'CHtml::link($data->name, array("story/view","id"=>$data->id,
+                "project_id"=>$data->project_id,
+                "scrum"=>true))',
+            ),
+            array('name' => 'type', ),
+            array('name' => 'points',),
+            array('name' => 'name',
+                'type'=>'raw',
+                'value'=>'CHtml::link("<i class=\'icon-hand-left\'></i>", array("moveToBacklog","id"=>$data->id,
+                "project_id"=>$data->project_id))',
             ),
         );
 

@@ -24,7 +24,7 @@
 
 <body>
 
-<div class="container" id="page">
+<div class="container wrapper" id="page">
 
     <div class="navbar navbar-fixed-top">
         <?php $this->widget('bootstrap.widgets.TbNavbar', array(
@@ -55,17 +55,19 @@
 
     <?php echo $content; ?>
 
-    <div class="clear"></div>
 
     <div id="push"></div>
 
 </div>
-<div class="hero-unit">
-    <p class="text-center"> Copyright &copy; <?php echo date('Y'); ?> by Ákos Kiszely.
+
+
+<div class="hero-unit footer">
+    <p> Copyright &copy; <?php echo date('Y'); ?> by Ákos Kiszely.
         All Rights Reserved.
         <?php echo Yii::powered(); ?>
     </p>
 </div>
+
 
 <!-- page -->
 

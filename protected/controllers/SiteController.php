@@ -27,9 +27,20 @@ class SiteController extends Controller
 	 */
 	public function actionIndex()
 	{
-		// renders the view file 'protected/views/site/index.php'
-		// using the default layout 'protected/views/layouts/main.php'
-		$this->render('index');
+        $projects = Project::model()->findAll();
+
+        $projectGridDataProvider = new CArrayDataProvider($projects);
+        $projectGridColumns = array(
+            array('name' => 'title',
+                'type'=>'raw',
+                'value'=>'CHtml::link($data->title, array("scrum/index","project_id"=>$data->id))',
+//                'url' => 'Yii::app()->urlManager->createUrl("scrum/index", array("project_id"=>$data->id))'
+            ),
+        );
+
+        $this->render('index', array("projectGridColumns" => $projectGridColumns,
+            "projectGridDataProvider" => $projectGridDataProvider));
+
 	}
 
 	/**

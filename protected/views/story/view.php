@@ -8,7 +8,7 @@ $this->breadcrumbs=array(
 $this->menu=array(
 	array('label'=>'List Story','url'=>array('index')),
 	array('label'=>'Create Story','url'=>array('create')),
-	array('label'=>'Update Story','url'=>array('update','id'=>$model->id)),
+	array('label'=>'Update Story','url'=>array('update','id'=>$model->id, 'project_id'=>$model->project_id, 'scrum'=>$scrum)),
 	array('label'=>'Delete Story','url'=>'#','linkOptions'=>array('submit'=>array('delete','id'=>$model->id),'confirm'=>'Are you sure you want to delete this item?')),
 	array('label'=>'Manage Story','url'=>array('admin')),
 );

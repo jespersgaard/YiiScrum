@@ -16,7 +16,7 @@ $this->breadcrumbs = array(
         $this->widget('bootstrap.widgets.TbGridView', array(
             'dataProvider' => $sprintGridDataProvider,
             'template' => "{items}",
-            'hideHeader'=>true,
+            'hideHeader' => true,
             'columns' => $storyGridColumns,
         ));
         ?>
@@ -32,7 +32,7 @@ $this->breadcrumbs = array(
         $this->widget('bootstrap.widgets.TbGridView', array(
             'dataProvider' => $sprintGridDataProvider,
             'template' => "{items}",
-            'hideHeader'=>true,
+            'hideHeader' => true,
             'columns' => $storyGridColumns,
         ));
         ?>
@@ -41,13 +41,24 @@ $this->breadcrumbs = array(
 
     <div id="icebox" class="span4">
         <?php $box = $this->beginWidget('bootstrap.widgets.TbBox', array(
-            'title' => 'Icebox <i class="icon-plus"></i>',
+            'title' => 'Icebox',
+            'headerButtons' => array(
+                array(
+                    'class' => 'bootstrap.widgets.TbButton',
+                    'label' => 'New',
+                    'icon' =>'icon-plus',
+                    'url' => array('story/create', 'project_id'=>$model->id, 'scrum'=>true),
+                ),
+
+            ),
+
+
         ));?>
         <?php
         $this->widget('bootstrap.widgets.TbGridView', array(
             'dataProvider' => $sprintGridDataProvider,
             'template' => "{items}",
-            'hideHeader'=>true,
+            'hideHeader' => true,
             'columns' => $storyGridColumns,
         ));
         ?>
