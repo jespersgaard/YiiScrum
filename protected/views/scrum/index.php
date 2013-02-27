@@ -17,7 +17,7 @@ $this->breadcrumbs = array(
             'dataProvider' => $sprintGridDataProvider,
             'template' => "{items}",
             'hideHeader' => true,
-            'columns' => $storyGridColumns,
+            'columns' => $sprintGridColumns,
         ));
         ?>
 
@@ -30,10 +30,10 @@ $this->breadcrumbs = array(
         ));?>
         <?php
         $this->widget('bootstrap.widgets.TbGridView', array(
-            'dataProvider' => $sprintGridDataProvider,
+            'dataProvider' => $backlogGridDataProvider,
             'template' => "{items}",
             'hideHeader' => true,
-            'columns' => $storyGridColumns,
+            'columns' => $backlogGridColumns,
         ));
         ?>
         <?php $this->endWidget();?>
@@ -56,10 +56,10 @@ $this->breadcrumbs = array(
         ));?>
         <?php
         $this->widget('bootstrap.widgets.TbGridView', array(
-            'dataProvider' => $sprintGridDataProvider,
+            'dataProvider' => $iceboxGridDataProvider,
             'template' => "{items}",
             'hideHeader' => true,
-            'columns' => $storyGridColumns,
+            'columns' => $iceboxGridColumns,
         ));
         ?>
         <?php $this->endWidget();?>

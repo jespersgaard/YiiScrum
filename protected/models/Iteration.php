@@ -5,10 +5,12 @@
  *
  * The followings are the available columns in table 'iteration':
  * @property integer $id
+ * @property integer $project_id
  * @property integer $num
  * @property integer $team_strength
  *
  * The followings are the available model relations:
+ * @property Project $project
  * @property Story[] $stories
  */
 class Iteration extends CActiveRecord
@@ -39,11 +41,11 @@ class Iteration extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('num, team_strength', 'required'),
-			array('num, team_strength', 'numerical', 'integerOnly'=>true),
+			array('project_id, num, team_strength', 'required'),
+			array('project_id, num, team_strength', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, num, team_strength', 'safe', 'on'=>'search'),
+			array('id, project_id, num, team_strength', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -55,6 +57,7 @@ class Iteration extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'project' => array(self::BELONGS_TO, 'Project', 'project_id'),
 			'stories' => array(self::HAS_MANY, 'Story', 'iteration'),
 		);
 	}
@@ -66,6 +69,7 @@ class Iteration extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
+			'project_id' => 'Project',
 			'num' => 'Num',
 			'team_strength' => 'Team Strength',
 		);
@@ -83,6 +87,7 @@ class Iteration extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
+		$criteria->compare('project_id',$this->project_id);
 		$criteria->compare('num',$this->num);
 		$criteria->compare('team_strength',$this->team_strength);
 
@@ -90,4 +95,11 @@ class Iteration extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+
+    public function getPlaceForStoryInBacklog($story)
+    {
+
+    }
+
+
 }

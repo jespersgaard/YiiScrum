@@ -168,4 +168,10 @@ class Story extends CActiveRecord
         return parent::afterSave();
     }
 
+    public function moveToBacklog() {
+        $iteration=Iteration::model()->getPlaceForStoryInBacklog($this);
+    }
+
+
+
 }

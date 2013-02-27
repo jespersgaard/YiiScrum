@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Hoszt: localhost
--- Létrehozás ideje: 2013. febr. 22. 15:13
+-- Létrehozás ideje: 2013. febr. 27. 15:30
 -- Szerver verzió: 5.5.24-log
 -- PHP verzió: 5.4.3
 
@@ -70,9 +70,11 @@ CREATE TABLE IF NOT EXISTS `authitemchild` (
 
 CREATE TABLE IF NOT EXISTS `iteration` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `project_id` int(11) NOT NULL,
   `num` int(11) NOT NULL,
   `team_strength` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `project_id` (`project_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -86,7 +88,7 @@ CREATE TABLE IF NOT EXISTS `label` (
   `label` varchar(40) COLLATE utf8_hungarian_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `label` (`label`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci AUTO_INCREMENT=9 ;
 
 --
 -- A tábla adatainak kiíratása `label`
@@ -98,6 +100,7 @@ INSERT INTO `label` (`id`, `label`) VALUES
 (6, 'bálna'),
 (3, 'cars'),
 (4, 'fruits'),
+(8, 'hhh'),
 (5, 'kacsa'),
 (7, 'torta');
 
@@ -178,7 +181,7 @@ CREATE TABLE IF NOT EXISTS `story` (
   KEY `owner` (`owner`),
   KEY `iteration` (`iteration`),
   KEY `project_id` (`project_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci AUTO_INCREMENT=11 ;
 
 --
 -- A tábla adatainak kiíratása `story`
@@ -187,7 +190,14 @@ CREATE TABLE IF NOT EXISTS `story` (
 INSERT INTO `story` (`id`, `project_id`, `name`, `description`, `type`, `points`, `requester`, `owner`, `labels`, `iteration`, `position`, `status`) VALUES
 (1, 2, 's1', '', 'FEATURE', 1, 1, 1, 'a,b', NULL, NULL, 'NOT STARTED'),
 (2, 2, 'It''s a story', '<p>bla bla bla ...</p>', 'BUG', 4, 1, 1, 'b,cars,fruits', NULL, NULL, 'NOT STARTED'),
-(3, 2, 'Szaftos sztori', '<p>123123</p>', 'FEATURE', 6, 1, 1, 'kacsa,bálna,torta', NULL, NULL, 'NOT STARTED');
+(3, 2, 'Szaftos sztori', '<p>123123</p>', 'FEATURE', 6, 1, 1, 'kacsa,bálna,torta', NULL, 888, 'NOT STARTED'),
+(4, 2, 'Scrumból létrehozott story', '<p>heheheheh</p>', 'BUG', 3, 1, 1, 'hhh', NULL, NULL, 'NOT STARTED'),
+(5, 2, 'na nézzük', '<p>fdsfds</p>', 'BUG', 1, 1, 1, '', NULL, NULL, 'NOT STARTED'),
+(6, 2, 'projektből hozzáadva', '', 'CHORE', 4, 1, 1, '', NULL, NULL, 'NOT STARTED'),
+(7, 2, 'projektből hozzáadva 2', '', 'CHORE', 4, 1, 1, '', NULL, NULL, 'NOT STARTED'),
+(8, 2, 'Scrumból hozzáadva', '<p>fdsf</p>', 'CHORE', 4, 1, 1, '', NULL, NULL, 'NOT STARTED'),
+(9, 2, 'Scrumból hozzáadva 3.', '', 'RELEASE', 4, 1, 1, '', NULL, NULL, 'NOT STARTED'),
+(10, 2, 'Ez egy új sztori', '<p>123</p>', 'CHORE', 4, 1, 1, '', NULL, NULL, 'NOT STARTED');
 
 -- --------------------------------------------------------
 
@@ -249,6 +259,12 @@ ALTER TABLE `authassignment`
 ALTER TABLE `authitemchild`
   ADD CONSTRAINT `authitemchild_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `authitem` (`name`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `authitemchild_ibfk_2` FOREIGN KEY (`child`) REFERENCES `authitem` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Megkötések a táblához `iteration`
+--
+ALTER TABLE `iteration`
+  ADD CONSTRAINT `iteration_ibfk_1` FOREIGN KEY (`project_id`) REFERENCES `project` (`id`);
 
 --
 -- Megkötések a táblához `project_member`

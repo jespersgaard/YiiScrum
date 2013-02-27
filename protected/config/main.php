@@ -49,6 +49,7 @@ return array(
 			'rules'=>array(
 				'<controller:\w+>/<id:\d+>'=>'<controller>/view',
 				'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
+                '<controller:\w+>/<action:\w+>/<name:\w+>'=>'<controller>/<action>',
 				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
 			),
 		),
@@ -80,6 +81,10 @@ return array(
         'bootstrap' => array(
             'class' => 'ext.bootstrap.components.Bootstrap',
             'responsiveCss' => true,
+        ),
+
+        'fixture'=>array(
+            'class'=>'system.test.CDbFixtureManager',
         ),
     ),
 

@@ -32,7 +32,7 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
     'tokenSeparators' => array(',', ' ')
 )));?>
 
-
+<?php echo $form->textFieldRow($model, 'position', array('class' => 'span5', 'maxlength' => 250)); ?>
 
 <div class="form-actions">
     <?php $this->widget('bootstrap.widgets.TbButton', array(
