@@ -170,6 +170,11 @@ class Story extends CActiveRecord
 
     public function moveToBacklog() {
         $iteration=Iteration::model()->getPlaceForStoryInBacklog($this);
+        if ($iteration==null) {
+            $iteration=Iteration::model()->createIteration($this->project_id);
+        }
+        $this->iteration=$iteration->id;
+        $this->position=$iteration->getLastPosition();
     }
 
 
