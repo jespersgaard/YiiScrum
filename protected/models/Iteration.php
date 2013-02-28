@@ -147,7 +147,14 @@ class Iteration extends CActiveRecord
     }
 
     public function getLastPosition() {
-
+        $cmd = Yii::app()->db->createCommand();
+        $cmd->select("MAX(position)");
+        $cmd->from("story");
+        $cmd->where("project_id=$this->project_id AND iteration=$this->id");
+        $maxPosition = $cmd->queryScalar();
+        $maxPosition++;
+        Yii::log("Next num: $maxPosition", CLogger::LEVEL_INFO);
+        return $maxPosition;
     }
 
 

@@ -175,6 +175,7 @@ class Story extends CActiveRecord
         }
         $this->iteration=$iteration->id;
         $this->position=$iteration->getLastPosition();
+        $this->save();
     }
 
 
