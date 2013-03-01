@@ -159,4 +159,9 @@ class Project extends CActiveRecord
         );
     }
 
+    public function getSprint() {
+        $iteration=Iteration::model()->getCurrentIteration($this->id);
+        return $iteration;
+    }
+
 }

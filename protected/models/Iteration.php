@@ -96,7 +96,7 @@ class Iteration extends CActiveRecord
         ));
     }
 
-    public function getPlaceForStoryInBacklog($story)
+    public function getIterationForStoryInBacklog($story)
         /** @var $story Story */
     {
         $velocity = $story->project->initial_velocity;
@@ -107,24 +107,30 @@ class Iteration extends CActiveRecord
         $cmd->leftJoin('story', 'story.iteration=iteration.id');
         $cmd->where = "iteration.project_id=$story->project_id";
         $cmd->group = "iteration.id, iteration.team_strength";
-        $cmd->having("iteration_points<=$velocity*(iteration.team_strength/100)");
+        $cmd->having("iteration_points+$story->points<=$velocity*(iteration.team_strength/100)");
         $cmd->order('num');
         $cmd->limit(1);
 
         $row = $cmd->queryRow();
 
         Yii::log($row == null ? 'NULL' : implode(';', $row), CLogger::LEVEL_INFO);
+
+        Yii::log($row == null ? 'NULL' : implode(';', $row), CLogger::LEVEL_INFO);
+
+        if ($row != null) {
+            $row = Iteration::model()->findByPk($row["id"]);
+        }
         return $row;
     }
 
-    public function createIteration($project_id)
+    public function createIterationInBacklog($project_id)
     {
         $maxNum = $this->getNextIterationNumber($project_id);
 
-        $iteration=new Iteration();
-        $iteration->project_id=$project_id;
-        $iteration->num=$maxNum;
-        $iteration->team_strength=100;
+        $iteration = new Iteration();
+        $iteration->project_id = $project_id;
+        $iteration->num = $maxNum;
+        $iteration->team_strength = 100;
         $iteration->save();
 
         return $iteration;
@@ -146,7 +152,8 @@ class Iteration extends CActiveRecord
         return $maxNum;
     }
 
-    public function getLastPosition() {
+    public function getLastPosition()
+    {
         $cmd = Yii::app()->db->createCommand();
         $cmd->select("MAX(position)");
         $cmd->from("story");
@@ -155,6 +162,33 @@ class Iteration extends CActiveRecord
         $maxPosition++;
         Yii::log("Next num: $maxPosition", CLogger::LEVEL_INFO);
         return $maxPosition;
+    }
+
+    public function getCurrentIteration($project_id)
+    {
+        $project = Project::model()->findByPk($project_id);
+        /** @var Project $project */
+//      TODO: Throw exception when $project null
+
+
+        $temp = strtotime($project->start . ' + 1 day');
+        $startMonday = strtotime('last monday', $temp);
+        $currentMonday = strtotime('Monday this week');
+
+        $week = ($currentMonday - $startMonday) / (60 * 60 * 24 * 7);
+
+        Yii::log("Start: $startMonday Current: $currentMonday Diff: $week weeks", CLogger::LEVEL_INFO);
+
+        $criteria = new CDbCriteria();
+        $criteria->condition = 'project_id=:project_id AND num=:num';
+        $criteria->params = array(':project_id' => $project_id, ':num' => $week);
+        $iteration = Iteration::model()->find($criteria);
+
+        if ($iteration == null) {
+            $iteration = $this->createIterationInBacklog($project_id);
+        }
+
+        return $iteration;
     }
 
 

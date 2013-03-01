@@ -5,10 +5,14 @@ class ScrumController extends Controller
 
     public function actionIndex($project_id)
     {
+        $currentIteration = Iteration::model()->getCurrentIteration($project_id);
+
         $model = Project::model()->findByPk($project_id);
+
         $sprintCriteria = new CDbCriteria();
-        $sprintCriteria->addCondition('iteration IS NOT NULL');
+        $sprintCriteria->addCondition("iteration=:iteration_id");
         $sprintCriteria->order = 'position';
+        $sprintCriteria->params = array(":iteration_id" => $currentIteration->id);
         $sprintGridDataProvider = new CArrayDataProvider($model->stories($sprintCriteria));
         $sprintGridColumns = array(
             array('name' => 'name',
@@ -26,8 +30,10 @@ class ScrumController extends Controller
         );
 
         $backlogCriteria = new CDbCriteria();
-        $backlogCriteria->addCondition('iteration IS NOT NULL');
-        $backlogCriteria->order = 'position';
+        $backlogCriteria->addCondition('stories.iteration IS NOT NULL AND stories.iteration<>:iteration_id');
+        $backlogCriteria->join="INNER JOIN iteration ON (stories.iteration=iteration.id)";
+        $backlogCriteria->order = 'iteration.num, position';
+        $backlogCriteria->params = array(":iteration_id" => $currentIteration->id);
         $backlogGridDataProvider = new CArrayDataProvider($model->stories($backlogCriteria));
 
         $backlogGridColumns = array(
@@ -76,14 +82,14 @@ class ScrumController extends Controller
             "backlogGridDataProvider" => $backlogGridDataProvider,
             "iceboxGridColumns" => $iceboxGridColumns,
             "iceboxGridDataProvider" => $iceboxGridDataProvider,
-
+            "currentIteration" => $currentIteration,
 
         ));
     }
 
     public function actionMoveToBacklog($id, $project_id)
     {
-        $story = Story::model()->findByPk($id);
+        $story = Story::model()->findByPk($id); /** @var Story $story */
         $story->moveToBacklog();
 
         $this->actionIndex($project_id);

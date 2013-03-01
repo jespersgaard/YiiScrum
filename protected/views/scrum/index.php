@@ -1,6 +1,7 @@
 <?php
 /* @var $this ScrumController */
 /* @var $model Project */
+/* @var $currentIteration Iteration */
 
 $this->breadcrumbs = array(
     $model->title,
@@ -9,7 +10,7 @@ $this->breadcrumbs = array(
 <div id="scrumpanel" class="row">
     <div id="sprint" class="span4">
         <?php $box = $this->beginWidget('bootstrap.widgets.TbBox', array(
-            'title' => 'Sprint',
+            'title' => "Sprint (Iteration: $currentIteration->id)",
         ));?>
 
         <?php
