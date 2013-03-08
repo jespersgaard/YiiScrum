@@ -66,3 +66,13 @@ $this->breadcrumbs = array(
         <?php $this->endWidget();?>
     </div>
 </div>
+<?php
+$items = CHtml::listData($iceboxGridDataProvider->getData(), 'id', 'name');
+$this->widget('zii.widgets.jui.CJuiSortable',array(
+'items'=>$items,
+// additional javascript options for the JUI Sortable plugin
+'options'=>array(
+'delay'=>'300',
+),
+));
+?>

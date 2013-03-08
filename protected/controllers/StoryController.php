@@ -180,4 +180,6 @@ class StoryController extends Controller
             Yii::app()->end();
         }
     }
+
+
 }
